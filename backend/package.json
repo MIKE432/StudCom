@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "Student messenger",
+  "main": "index.js",
+  "author": "Michal Raszczuk",
+  "license": "MIT",
+  "scripts": {
+    "start:dev": "NODE_ENV=dev nodemon index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "fs": "^0.0.1-security",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.2",
+    "sequelize": "^5.21.3"
+  }
+}
