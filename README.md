@@ -1,2 +1,3 @@
 # StudCom
 
+Small application to make information exchange (e.g exams photos) between students easier, I think...
