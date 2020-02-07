@@ -1,0 +1,13 @@
+@import './Media.scss';
+
+.login-form {
+    width: 30%;
+    padding: 15px;
+    border: 1px solid grey;
+    border-radius: 5px;
+
+    @include for-phone-only {
+        width: 100%; 
+        border: none;
+    }
+}
