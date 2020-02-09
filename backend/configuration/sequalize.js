@@ -3,11 +3,11 @@ const Sequelize = require('sequelize'),
     path = require('path'),
     defaults = require('./defaults/defaults');
 
-
-const sequelize = new Sequelize(defaults.dbCredentials.databaseName,
-    defaults.dbCredentials.userName,
-    defaults.dbCredentials.password,
-    defaults.dbCredentials.options);
+console.log(defaults.sequalizeCredentials);
+const sequelize = new Sequelize(defaults.sequalizeCredentials.databaseName,
+    defaults.sequalizeCredentials.userName,
+    defaults.sequalizeCredentials.password,
+    defaults.sequalizeCredentials.options);
 
 const db = {};
 

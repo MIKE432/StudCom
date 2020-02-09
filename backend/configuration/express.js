@@ -1,7 +1,9 @@
 const express = require('express'),
     glob = require('glob'),
     path = require('path'),
-    defaults = require('./defaults/defaults');
+    passport = require('passport'),
+    defaults = require('./defaults/defaults'),
+    initPassport = require('./passport');
 
 const initRoutes = (app) => {
 
@@ -13,7 +15,7 @@ const initRoutes = (app) => {
 };
 
 const initMiddleWares = (app) => {
-
+    initPassport(passport, app);
 };
 
 

@@ -5,7 +5,7 @@ const LocalStrategy = require('passport-local').Strategy,
     db = require('./sequalize'),
     userService = require('../services/userServices/userService');
 
-module.exports = (passport) => {
+const initStrategy = (passport) => {
 
     passport.use(new LocalStrategy({
         usernameField: 'email',
@@ -23,4 +23,19 @@ module.exports = (passport) => {
 
         return done(null, userService.mapUserToResponseModel(user));
     }));
+};
+
+module.exports = (passport, app) => {
+    passport.serializeUser((user, done) => {
+        done(null, user);
+    });
+
+    passport.deserializeUser((user, done) => {
+        done(null, user);
+    });
+
+    initStrategy(passport);
+
+    app.use(passport.initialize());
+    app.use(passport.session());
 };
