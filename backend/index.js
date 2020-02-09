@@ -1,1 +1,3 @@
-const express = require('./configuration/express');
+const initExpress = require('./configuration/express');
+
+initExpress();

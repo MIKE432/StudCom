@@ -8,13 +8,19 @@
   "scripts": {
     "start:dev": "NODE_ENV=dev nodemon index.js",
     "start": "node index.js",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint . --ext .js"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "express": "^4.17.1",
     "fs": "^0.0.1-security",
+    "glob": "^7.1.6",
     "lodash": "^4.17.15",
     "nodemon": "^2.0.2",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "pg": "^7.18.1",
     "sequelize": "^5.21.3"
   },
   "devDependencies": {
