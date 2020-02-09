@@ -1,7 +1,18 @@
 const defaults = {
-    serverPort: 8080
-};
+    serverPort: 8080,
+    patterns: {
+        models: 'backend/models/*.js',
+        routes: 'backend/routes/*.js'
+    },
+    sequalizeCredentials: {
+        databaseName: '',
+        userName: '',
+        password: '',
+        options: {
 
+        }
+    }
+};
 
 if (process.env.NODE_ENV === 'dev') {
 
