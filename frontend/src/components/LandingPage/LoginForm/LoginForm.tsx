@@ -19,11 +19,11 @@ class LoginForm extends React.Component {
         render={() => (
               <Form className="login-form">
                   <div className="form-group">
-                        <label htmlFor='login-form-email'>Email address</label>
+                        <label htmlFor='login-form-email'>Email</label>
                         <Field id="login-form-email" type="email" className="form-control" name="email" />
                   </div>
                   <div className="form-group">
-                        <label htmlFor='login-form-password'>Email address</label>
+                        <label htmlFor='login-form-password'>Hasło</label>
                         <Field id="login-form-password" type="password" className="form-control" name="password" />
                   </div>
                   <button type="submit" className="btn btn-success">Zaloguj się</button>

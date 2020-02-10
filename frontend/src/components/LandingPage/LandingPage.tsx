@@ -5,7 +5,10 @@ class LandingPage extends React.Component {
 
   render() {
     return (
-      <LoginForm />
+      <div className="login-form-container">
+        <LoginForm />
+      </div>
+
     );
   }
 }
