@@ -1,8 +1,10 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './styles/StylesToExport.scss'
 import Router from './routes/routerComponent'
+import NavBar from './components/NavBar/NavBar'
 
 class App extends React.Component {
 
@@ -21,7 +23,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Router />
+          <BrowserRouter>
+            <NavBar />
+            <Router />
+          </BrowserRouter>
+
       </div>
     );
   }
