@@ -3,13 +3,13 @@ import { Switch, Route } from 'react-router-dom';
 import routes from './routes';
 
 const Router = () => (
-    <Switch>
-        {
-            routes.map(route => <Route path={route.path} component={route.component} exact={true} />)
-        }
-    </Switch>
+  <Switch>
+    {
+      routes.map((route) => <Route path={route.path} component={route.component} exact />)
+    }
+  </Switch>
 
 
 );
 
-export default Router
+export default Router;

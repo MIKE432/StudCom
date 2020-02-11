@@ -5,7 +5,10 @@
       "jsx": "react",
       "moduleResolution": "node",
       "noImplicitAny": false,
-      "strict": true
+      "strict": true,
+      "typeRoots": [
+        "node_modules/@types"
+    ]
     }
 }
   
