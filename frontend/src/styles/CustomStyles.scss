@@ -16,6 +16,28 @@
     }
 }
 
+.register-form {
+    width: 30%;
+    padding: 15px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    position: relative;
+    background-color: white;
+
+    @include for-phone-only {
+        width: 100%; 
+        border: none;
+        right: 0;
+    }
+}
+
+.register-form-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .login-form-container {
     height: 100vh;
     display: flex;
@@ -30,7 +52,7 @@
     z-index: 1;
     background-color: black;
     display: flex;
-    position: fixed;
+    position: sticky;
 }
 
 .nav-link {
@@ -40,6 +62,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
     &:hover {
         color: grey
     }
