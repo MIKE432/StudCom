@@ -1,21 +1,32 @@
 import React from 'react'
 import { Formik, Field, Form } from 'formik';
 import * as yup from 'yup';
+import ErrorMessage from '../ErrorForm/ErrorFormMessage';
+import FormInput from '../Input/FormInput'
 
 const registerSchema = () => yup.object({
-    firstName: yup.string(),
-    lastName: yup.string(),
-    email: yup.string().email(),
+    firstName: yup.string().required(),
+    lastName: yup.string().required(),
+    email: yup.string().email().required(),
     password: yup.string().min(6).required('min 6 znaków'),
     password1: yup.string().min(6).required('min 6 znaków')
 });
 
-type RegisterUser = yup.InferType<typeof registerSchema>;
+type MyProps = Record<string, any>;
+type MyState = { isAfterSubmit: Boolean };
 
-class RegisterForm extends React.Component {
+class RegisterForm extends React.Component<MyProps, MyState> {
+    constructor(props: Record<string, any>) {
+        super(props)
+
+        this.state = {
+            isAfterSubmit: false
+        }
+    }
 
     onSubmit = (formikValues: Record<string, any>) => {
         console.log(formikValues)
+        this.setState({isAfterSubmit: true})
     }
 
     render() {
@@ -27,32 +38,56 @@ class RegisterForm extends React.Component {
                     lastName: '',
                     email: '',
                     password: '',
-                    password2: ''
+                    password1: ''
                 }}
                 validationSchema={registerSchema}
-                render={() => (
+                render={(formikBag) => (
                 <Form className="register-form needs-validation" noValidate>
-                    <div className="form-group">
-                        <label htmlFor="register-form-firstName">Imię</label>
-                        <Field id="register-form-firstName" type="text" className="form-control" name="firstName" required/>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="register-form-lastName">Nazwisko</label>
-                        <Field id="register-form-lastName" type="text" className="form-control" name="lastName" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="register-form-email">Email</label>
-                        <Field id="register-form-email" type="email" className="form-control" name="email" />
-
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="register-form-password">Hasło</label>
-                        <Field id="register-form-password" type="password" className="form-control" name="password" />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="register-form-password1">Powtórz hasło</label>
-                        <Field id="register-form-password1" type="password" className="form-control" name="password1" />
-                    </div>
+                    <FormInput 
+                        labelText="Imie" 
+                        uniqueId="register-form-firstName" 
+                        type="text" 
+                        error={formikBag.errors.firstName} 
+                        touched={formikBag.touched.firstName} 
+                        name="firstName" 
+                        errorMessage="Podaj imię"
+                    />
+                    <FormInput 
+                        labelText="Nazwisko" 
+                        uniqueId="register-form-lastName" 
+                        type="text" 
+                        error={formikBag.errors.lastName} 
+                        touched={formikBag.touched.lastName} 
+                        name="lastName" 
+                        errorMessage="Podaj nazwisko"
+                    />
+                    <FormInput 
+                        labelText="Email" 
+                        uniqueId="register-form-email" 
+                        type="text" 
+                        error={formikBag.errors.email} 
+                        touched={formikBag.touched.email} 
+                        name="email" 
+                        errorMessage="Podaj email"
+                    />
+                    <FormInput 
+                        labelText="Hasło" 
+                        uniqueId="register-form-password" 
+                        type="password" 
+                        error={formikBag.errors.password} 
+                        touched={formikBag.touched.password} 
+                        name="password" 
+                        errorMessage="Podaj hasło"
+                    />
+                    <FormInput 
+                        labelText="Powtórz hasło" 
+                        uniqueId="register-form-password1" 
+                        type="password" 
+                        error={formikBag.errors.password1} 
+                        touched={formikBag.touched.password1} 
+                        name="password1" 
+                        errorMessage="Hasło różni się od pierwszego"
+                    />
                     <button type="submit" className="btn btn-success">Zaloguj się</button>
                 </Form>
                 )}
