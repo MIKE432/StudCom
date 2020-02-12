@@ -1,8 +1,9 @@
 import React from 'react'
-import { Formik, Field, Form } from 'formik';
+import { Formik, Form } from 'formik';
 import * as yup from 'yup';
-import ErrorMessage from '../ErrorForm/ErrorFormMessage';
+import { withRouter } from 'react-router-dom';
 import FormInput from '../Input/FormInput'
+import {RouteComponentProps} from "react-router";
 
 const registerSchema = () => yup.object({
     firstName: yup.string().required(),
@@ -12,11 +13,17 @@ const registerSchema = () => yup.object({
     password1: yup.string().min(6).required('min 6 znaków')
 });
 
-type MyProps = Record<string, any>;
 type MyState = { isAfterSubmit: Boolean };
 
-class RegisterForm extends React.Component<MyProps, MyState> {
-    constructor(props: Record<string, any>) {
+type PathParamsType = {
+    param1: string,
+}
+
+// Your component own properties
+type PropsType = RouteComponentProps<PathParamsType> & Record<string, any>
+
+class RegisterForm extends React.Component<PropsType, MyState> {
+    constructor(props: PropsType) {
         super(props)
 
         this.state = {
@@ -26,7 +33,8 @@ class RegisterForm extends React.Component<MyProps, MyState> {
 
     onSubmit = (formikValues: Record<string, any>) => {
         console.log(formikValues)
-        this.setState({isAfterSubmit: true})
+        this.setState({isAfterSubmit: true});
+        this.props.history.push('/')
     }
 
     render() {
@@ -47,7 +55,10 @@ class RegisterForm extends React.Component<MyProps, MyState> {
                         labelText="Imie" 
                         uniqueId="register-form-firstName" 
                         type="text" 
+                        className={`form-control ${formikBag.errors.firstName && formikBag.touched.firstName ? "is-invalid" : 
+                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
                         error={formikBag.errors.firstName} 
+                        isValid={!(formikBag.errors.firstName && formikBag.touched.firstName)}
                         touched={formikBag.touched.firstName} 
                         name="firstName" 
                         errorMessage="Podaj imię"
@@ -56,7 +67,10 @@ class RegisterForm extends React.Component<MyProps, MyState> {
                         labelText="Nazwisko" 
                         uniqueId="register-form-lastName" 
                         type="text" 
+                        className={`form-control ${formikBag.errors.lastName && formikBag.touched.lastName ? "is-invalid" : 
+                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
                         error={formikBag.errors.lastName} 
+                        isValid={!(formikBag.errors.lastName && formikBag.touched.lastName)}
                         touched={formikBag.touched.lastName} 
                         name="lastName" 
                         errorMessage="Podaj nazwisko"
@@ -65,7 +79,10 @@ class RegisterForm extends React.Component<MyProps, MyState> {
                         labelText="Email" 
                         uniqueId="register-form-email" 
                         type="text" 
+                        className={`form-control ${formikBag.errors.email && formikBag.touched.email ? "is-invalid" : 
+                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
                         error={formikBag.errors.email} 
+                        isValid={!(formikBag.errors.email && formikBag.touched.email)}
                         touched={formikBag.touched.email} 
                         name="email" 
                         errorMessage="Podaj email"
@@ -74,7 +91,10 @@ class RegisterForm extends React.Component<MyProps, MyState> {
                         labelText="Hasło" 
                         uniqueId="register-form-password" 
                         type="password" 
+                        className={`form-control ${formikBag.errors.password && formikBag.touched.password ? "is-invalid" : 
+                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
                         error={formikBag.errors.password} 
+                        isValid={!(formikBag.errors.password && formikBag.touched.password)}
                         touched={formikBag.touched.password} 
                         name="password" 
                         errorMessage="Podaj hasło"
@@ -83,10 +103,12 @@ class RegisterForm extends React.Component<MyProps, MyState> {
                         labelText="Powtórz hasło" 
                         uniqueId="register-form-password1" 
                         type="password" 
-                        error={formikBag.errors.password1} 
-                        touched={formikBag.touched.password1} 
+                        className={`form-control ${(formikBag.touched.password1 && ((formikBag.errors.password1)
+                                                    || (formikBag.values.password !== formikBag.values.password1))) ? "is-invalid" : 
+                                                     (this.state.isAfterSubmit ? "is-valid" : "")}`}
+                        isValid={!(formikBag.touched.password1 && ((formikBag.errors.password1) || (formikBag.values.password !== formikBag.values.password1)))}
                         name="password1" 
-                        errorMessage="Hasło różni się od pierwszego"
+                        errorMessage={formikBag.values.password1 === '' ? "Podaj hasło" : "Hasło różni się od pierwszego"}
                     />
                     <button type="submit" className="btn btn-success">Zaloguj się</button>
                 </Form>
@@ -96,4 +118,4 @@ class RegisterForm extends React.Component<MyProps, MyState> {
     }
 }
 
-export default RegisterForm
+export default withRouter(RegisterForm)
