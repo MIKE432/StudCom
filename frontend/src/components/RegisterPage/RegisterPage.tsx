@@ -11,6 +11,7 @@ class RegisterPage extends React.Component {
     render() {
         return (
            <div className="register-form-container">
+               <h1>Zarejestruj się</h1>
                <RegisterForm />
            </div>
         )

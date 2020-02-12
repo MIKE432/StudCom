@@ -1,0 +1,13 @@
+@import './Colors.scss';
+
+.error-color {
+    color: $warning-color;
+}
+
+.error-color {
+    color: $error-color;
+}
+
+.success-color {
+    color: $success-color;
+}
