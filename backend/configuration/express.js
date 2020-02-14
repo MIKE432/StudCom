@@ -19,25 +19,29 @@ const initRoutes = (app) => {
     routes.forEach((route) => {
         require(route)(app);
     });
+
+    app.get('/api/', (req, res) => {
+        res.send('hello world');
+    });
 };
 
 const initMiddleWares = (app) => {
     app.use(cors());
     app.use(bodyParser.json('type')),
-    app.use(cookieParser())
-    app.use(bodyParser.urlencoded({ extended: true }))
+    app.use(cookieParser());
+    app.use(bodyParser.urlencoded({ extended: true }));
     app.use(session({
         secret: defaults.session.secret,
         name: defaults.session.name,
         store: new redisStore({
             port: defaults.redis.port,
             host: defaults.redis.host,
-            client: client
+            client
         }),
         saveUninitialized: true,
         resave: false,
         cookie: { maxAge: 1800000 }
-    }))
+    }));
 
     initPassport(passport, app);
 };
