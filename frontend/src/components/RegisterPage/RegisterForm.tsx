@@ -1,121 +1,122 @@
-import React from 'react'
+import React from 'react';
 import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { withRouter } from 'react-router-dom';
-import FormInput from '../Input/FormInput'
-import {RouteComponentProps} from "react-router";
+import { RouteComponentProps } from 'react-router';
+import FormInput from '../Input/FormInput';
+import { getHome } from '../../rest/requests/User';
 
 const registerSchema = () => yup.object({
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required('min 6 znaków'),
-    password1: yup.string().min(6).required('min 6 znaków')
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  email: yup.string().email().required(),
+  password: yup.string().min(6).required('min 6 znaków'),
+  password1: yup.string().min(6).required('min 6 znaków')
 });
 
-type MyState = { isAfterSubmit: Boolean };
+type MyState = { isAfterSubmit: boolean };
 
 type PathParamsType = {
-    param1: string,
+  param1: string;
 }
 
 // Your component own properties
 type PropsType = RouteComponentProps<PathParamsType> & Record<string, any>
 
 class RegisterForm extends React.Component<PropsType, MyState> {
-    constructor(props: PropsType) {
-        super(props)
+  constructor(props: PropsType) {
+    super(props);
 
-        this.state = {
-            isAfterSubmit: false
-        }
-    }
+    this.state = {
+      isAfterSubmit: false
+    };
+  }
 
-    onSubmit = (formikValues: Record<string, any>) => {
-        console.log(formikValues)
-        this.setState({isAfterSubmit: true});
-        this.props.history.push('/')
-    }
+  onSubmit = (formikValues: Record<string, any>) => {
+    this.setState({ isAfterSubmit: true });
+    getHome().then((val) => console.log(val));
+    this.props.history.push('/');
+  }
 
-    render() {
-        return (
-            <Formik
-                onSubmit={this.onSubmit}
-                initialValues={{
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    password: '',
-                    password1: ''
-                }}
-                validationSchema={registerSchema}
-                render={(formikBag) => (
-                <Form className="register-form needs-validation" noValidate>
-                    <FormInput 
-                        labelText="Imie" 
-                        uniqueId="register-form-firstName" 
-                        type="text" 
-                        className={`form-control ${formikBag.errors.firstName && formikBag.touched.firstName ? "is-invalid" : 
-                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
-                        error={formikBag.errors.firstName} 
-                        isValid={!(formikBag.errors.firstName && formikBag.touched.firstName)}
-                        touched={formikBag.touched.firstName} 
-                        name="firstName" 
-                        errorMessage="Podaj imię"
-                    />
-                    <FormInput 
-                        labelText="Nazwisko" 
-                        uniqueId="register-form-lastName" 
-                        type="text" 
-                        className={`form-control ${formikBag.errors.lastName && formikBag.touched.lastName ? "is-invalid" : 
-                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
-                        error={formikBag.errors.lastName} 
-                        isValid={!(formikBag.errors.lastName && formikBag.touched.lastName)}
-                        touched={formikBag.touched.lastName} 
-                        name="lastName" 
-                        errorMessage="Podaj nazwisko"
-                    />
-                    <FormInput 
-                        labelText="Email" 
-                        uniqueId="register-form-email" 
-                        type="text" 
-                        className={`form-control ${formikBag.errors.email && formikBag.touched.email ? "is-invalid" : 
-                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
-                        error={formikBag.errors.email} 
-                        isValid={!(formikBag.errors.email && formikBag.touched.email)}
-                        touched={formikBag.touched.email} 
-                        name="email" 
-                        errorMessage="Podaj email"
-                    />
-                    <FormInput 
-                        labelText="Hasło" 
-                        uniqueId="register-form-password" 
-                        type="password" 
-                        className={`form-control ${formikBag.errors.password && formikBag.touched.password ? "is-invalid" : 
-                            (this.state.isAfterSubmit ? "is-valid" : "")}`}
-                        error={formikBag.errors.password} 
-                        isValid={!(formikBag.errors.password && formikBag.touched.password)}
-                        touched={formikBag.touched.password} 
-                        name="password" 
-                        errorMessage="Podaj hasło"
-                    />
-                    <FormInput 
-                        labelText="Powtórz hasło" 
-                        uniqueId="register-form-password1" 
-                        type="password" 
-                        className={`form-control ${(formikBag.touched.password1 && ((formikBag.errors.password1)
-                                                    || (formikBag.values.password !== formikBag.values.password1))) ? "is-invalid" : 
-                                                     (this.state.isAfterSubmit ? "is-valid" : "")}`}
-                        isValid={!(formikBag.touched.password1 && ((formikBag.errors.password1) || (formikBag.values.password !== formikBag.values.password1)))}
-                        name="password1" 
-                        errorMessage={formikBag.values.password1 === '' ? "Podaj hasło" : "Hasło różni się od pierwszego"}
-                    />
-                    <button type="submit" className="btn btn-success">Zaloguj się</button>
-                </Form>
-                )}
+  render() {
+    return (
+      <Formik
+        onSubmit={this.onSubmit}
+        initialValues={{
+          firstName: '',
+          lastName: '',
+          email: '',
+          password: '',
+          password1: ''
+        }}
+        validationSchema={registerSchema}
+        render={(formikBag) => (
+          <Form className="register-form needs-validation" noValidate>
+            <FormInput
+              labelText="Imie"
+              uniqueId="register-form-firstName"
+              type="text"
+              className={`form-control ${formikBag.errors.firstName && formikBag.touched.firstName ? 'is-invalid'
+                : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
+              error={formikBag.errors.firstName}
+              isValid={!(formikBag.errors.firstName && formikBag.touched.firstName)}
+              touched={formikBag.touched.firstName}
+              name="firstName"
+              errorMessage="Podaj imię"
             />
-        )
-    }
+            <FormInput
+              labelText="Nazwisko"
+              uniqueId="register-form-lastName"
+              type="text"
+              className={`form-control ${formikBag.errors.lastName && formikBag.touched.lastName ? 'is-invalid'
+                : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
+              error={formikBag.errors.lastName}
+              isValid={!(formikBag.errors.lastName && formikBag.touched.lastName)}
+              touched={formikBag.touched.lastName}
+              name="lastName"
+              errorMessage="Podaj nazwisko"
+            />
+            <FormInput
+              labelText="Email"
+              uniqueId="register-form-email"
+              type="text"
+              className={`form-control ${formikBag.errors.email && formikBag.touched.email ? 'is-invalid'
+                : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
+              error={formikBag.errors.email}
+              isValid={!(formikBag.errors.email && formikBag.touched.email)}
+              touched={formikBag.touched.email}
+              name="email"
+              errorMessage="Podaj email"
+            />
+            <FormInput
+              labelText="Hasło"
+              uniqueId="register-form-password"
+              type="password"
+              className={`form-control ${formikBag.errors.password && formikBag.touched.password ? 'is-invalid'
+                : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
+              error={formikBag.errors.password}
+              isValid={!(formikBag.errors.password && formikBag.touched.password)}
+              touched={formikBag.touched.password}
+              name="password"
+              errorMessage="Podaj hasło"
+            />
+            <FormInput
+              labelText="Powtórz hasło"
+              uniqueId="register-form-password1"
+              type="password"
+              className={`form-control ${(formikBag.touched.password1 && ((formikBag.errors.password1)
+                                                    || (formikBag.values.password !== formikBag.values.password1))) ? 'is-invalid'
+                : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
+              isValid={!(formikBag.touched.password1 && ((formikBag.errors.password1) || (formikBag.values.password !== formikBag.values.password1)))}
+              name="password1"
+              errorMessage={formikBag.values.password1 === '' ? 'Podaj hasło' : 'Hasło różni się od pierwszego'}
+            />
+            <button type="submit" className="btn btn-success">Zaloguj się</button>
+          </Form>
+        )}
+      />
+    );
+  }
 }
 
-export default withRouter(RegisterForm)
+export default withRouter(RegisterForm);
