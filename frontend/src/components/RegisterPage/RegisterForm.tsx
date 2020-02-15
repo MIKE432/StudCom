@@ -4,7 +4,9 @@ import * as yup from 'yup';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import FormInput from '../Input/FormInput';
-import { getHome } from '../../rest/requests/User';
+import { registerUser } from '../../rest/requests/User';
+import { mapUserToRequestModel } from '../../services/userService';
+import { User } from '../../types/userTypes';
 
 const registerSchema = () => yup.object({
   firstName: yup.string().required(),
@@ -32,10 +34,13 @@ class RegisterForm extends React.Component<PropsType, MyState> {
     };
   }
 
-  onSubmit = (formikValues: Record<string, any>) => {
+  onSubmit = (formikValues: User) => {
     this.setState({ isAfterSubmit: true });
-    getHome().then((val) => console.log(val));
-    this.props.history.push('/');
+    registerUser(mapUserToRequestModel(formikValues)).then((callback) => {
+      console.log(callback);
+      this.props.history.push('/');
+    });
+
   }
 
   render() {
@@ -111,7 +116,7 @@ class RegisterForm extends React.Component<PropsType, MyState> {
               name="password1"
               errorMessage={formikBag.values.password1 === '' ? 'Podaj hasło' : 'Hasło różni się od pierwszego'}
             />
-            <button type="submit" className="btn btn-success">Zaloguj się</button>
+            <button type="submit" disabled={!formikBag.isValid} className="btn btn-success">Zaloguj się</button>
           </Form>
         )}
       />

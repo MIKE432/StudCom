@@ -1,8 +1,8 @@
 const defaults = {
     serverPort: 8080,
     patterns: {
-        models: 'backend/models/*.js',
-        routes: 'backend/routes/*.js'
+        models: 'models/*.js',
+        routes: 'routes/*.js'
     },
     sequalizeCredentials: {
         database: '',
