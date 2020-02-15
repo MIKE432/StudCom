@@ -15,7 +15,6 @@ const express = require('express'),
 const initRoutes = (app) => {
 
     const routes = glob.sync(path.resolve(defaults.patterns.routes));
-
     routes.forEach((route) => {
         require(route)(app);
     });
@@ -25,11 +24,23 @@ const initRoutes = (app) => {
     });
 };
 
+const setHeaders = (app) => {
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header(
+          'Access-Control-Allow-Headers',
+          'Content-Type'
+        );
+        next();
+    });
+};
+
 const initMiddleWares = (app) => {
     app.use(cors());
-    app.use(bodyParser.json('type')),
-    app.use(cookieParser());
     app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json()),
+    app.use(cookieParser());
+
     app.use(session({
         secret: defaults.session.secret,
         name: defaults.session.name,
@@ -49,8 +60,10 @@ const initMiddleWares = (app) => {
 
 module.exports = function () {
     const app = express();
-    initRoutes(app);
+    setHeaders(app);
     initMiddleWares(app);
+    initRoutes(app);
+
 
     app.listen(defaults.serverPort, () => {
         console.log(`App is listening on port: ${defaults.serverPort}`);

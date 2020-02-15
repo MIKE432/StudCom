@@ -21,7 +21,7 @@ module.exports = {
       'newline-per-chained-call': 0,
       'no-bitwise': 0,
       'no-caller': 2,
-      'no-console': 0,
+      'no-console': 1,
       'no-else-return': 0,
       'no-empty-class': 0,
       'no-multi-spaces': 2,

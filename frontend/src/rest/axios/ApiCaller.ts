@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Method, RequestBody, RequestParams, ResponseType } from './ApiTypes';
+import { Method, RequestBody, RequestParams, ResponseType } from '../../types/apiTypes';
 
 export const apiCall = async (url: string, method: Method, params: RequestParams, body: RequestBody) => (await apiRequest(url, method, params, body)).data;
 

@@ -3,7 +3,6 @@ const Sequelize = require('sequelize'),
     path = require('path'),
     defaults = require('./defaults/defaults');
 
-console.log(defaults.sequalizeCredentials);
 const sequelize = new Sequelize(defaults.sequalizeCredentials.databaseName,
     defaults.sequalizeCredentials.userName,
     defaults.sequalizeCredentials.password,

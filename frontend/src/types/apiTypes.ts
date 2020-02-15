@@ -13,6 +13,4 @@ export type RequestBody = Record<string, any>
 
 export type RequestParams = Record<string, any>
 
-export type ResponseType = {
-  response: Record<string, any>;
-}
+export type ResponseType = { response: Record<string, any> }

@@ -29,4 +29,4 @@ exports.NotFoundError = class NotFoundError extends RequestError {
 exports.handleErrors = (fn) => (req, res, next) => {
         const runResult = fn(req, res, next);
         runResult.catch && runResult.catch(next);
-    };
+};
