@@ -1,6 +1,8 @@
 import { apiCall } from '../axios/ApiCaller';
-import { User } from '../../types/userTypes';
+import { RegisterUser, LoginUser } from '../../types/userTypes';
 
-export const getHome = async () => await apiCall('/api/', 'GET', {}, {});
+export const getCurrentUser = async () => await apiCall('/api/user', 'GET', {}, {});
 
-export const registerUser = async (user: User) => await apiCall('/api/register', 'POST', {}, user);
+export const registerUser = async (user: RegisterUser) => await apiCall('/api/register', 'POST', {}, user);
+
+export const loginUser = async (user: LoginUser) => await apiCall('/api/login', 'POST', {}, user);

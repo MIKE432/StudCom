@@ -3,7 +3,8 @@
 const LocalStrategy = require('passport-local').Strategy,
     crypto = require('crypto-js'),
     db = require('./sequalize'),
-    userService = require('../services/userServices/userService');
+    userService = require('../services/userServices/userService'),
+    UnauthorizedError = require('../configuration/errors').UnauthorizedError
 
 const initStrategy = (passport) => {
 
@@ -12,14 +13,13 @@ const initStrategy = (passport) => {
         passwordField: 'password'
     },
     async (email, password, done) => {
-        const user = userService.getUser(email, true);
-
-        if (!user) return done(new Error('Invalid username or password'));
+        const user = await userService.getUser(email, true);
+        if (!user) return done(new UnauthorizedError('Invalid username or password'));
 
         const passwordAndSalt = password + user.salt;
         const hashedPassword = crypto.SHA256(passwordAndSalt).toString();
 
-        if (!(hashedPassword === user.password)) return done(new Error('Invalid username or password'));
+        if (!(hashedPassword === user.password)) return done(new UnauthorizedError('Invalid username or password'));
 
         return done(null, userService.mapUserToResponseModel(user));
     }));

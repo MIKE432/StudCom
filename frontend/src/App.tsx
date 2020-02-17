@@ -4,33 +4,59 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './styles/StylesToExport.scss';
 import Router from './routes/routerComponent';
-import NavBar from './components/NavBar/NavBar';
+import NavBar from './components/core/NavBar/NavBar';
+import { User } from './types/userTypes';
+import { getCurrentUser } from './rest/requests/User'
 
-class App extends React.Component {
+export const userManagementMethods = {
+  loginUser: (user: User | null) => {},
+  logoutUser: () => {}
+}
+
+class App extends React.Component<Record<string, any>, Record<string, any>> {
 
   constructor(props: Record<string, any>) {
     super(props);
 
     this.state = {
-      isUserLoggendIn: false
+      isUserLoggedIn: false,
+      currentUser: null
     };
+    userManagementMethods.loginUser = this.loginUser;
+    userManagementMethods.logoutUser = this.logoutUser;
   }
 
-  userLogIn = () => { this.setState({ isUserLoggendIn: true }); }
+  componentDidMount() {
+    getCurrentUser().then(res => {
+      if(res.status === 200) {
+        this.setState({isUserLoggedIn: true, currentUser: res.data})
+      } else {
+        this.setState({isUserLoggedIn: false, currentUser: res.data})
+      }
+    })
+  }
+  
+  loginUser = (user: User | null) => {
+    this.setState({ isUserLoggedIn: true, currentUser: user });
+  }
 
-  userLogOut = () => { this.setState({ isUserLoggendIn: false }); }
+  logoutUser = () => {
+    this.setState({ isUserLoggedIn: false, currentUser: null });
+  }
 
   render() {
     return (
       <div>
+        {
+          console.log(this.state.currentUser)
+        }
         <BrowserRouter>
           <NavBar />
-          <Router />
+          <Router logoutUser={this.logoutUser} loginUser={this.loginUser}/>
         </BrowserRouter>
-
       </div>
     );
   }
 }
 
-export default App;
+export default App

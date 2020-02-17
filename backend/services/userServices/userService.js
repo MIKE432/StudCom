@@ -1,3 +1,4 @@
+
 const cryptoJs = require('crypto-js'),
     crypto = require('crypto'),
     db = require('../../configuration/sequalize');

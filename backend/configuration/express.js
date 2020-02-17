@@ -7,7 +7,7 @@ const express = require('express'),
     session = require('express-session'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    redisStore = require('connect-redis')(session),
+    RedisStore = require('connect-redis')(session),
     client = redis.createClient(),
     defaults = require('./defaults/defaults'),
     initPassport = require('./passport');
@@ -38,13 +38,13 @@ const setHeaders = (app) => {
 const initMiddleWares = (app) => {
     app.use(cors());
     app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json()),
+    app.use(bodyParser.json());
     app.use(cookieParser());
 
     app.use(session({
         secret: defaults.session.secret,
         name: defaults.session.name,
-        store: new redisStore({
+        store: new RedisStore({
             port: defaults.redis.port,
             host: defaults.redis.host,
             client
