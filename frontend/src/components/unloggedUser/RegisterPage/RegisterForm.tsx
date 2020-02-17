@@ -3,10 +3,12 @@ import { Formik, Form } from 'formik';
 import * as yup from 'yup';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import FormInput from '../Input/FormInput';
-import { registerUser } from '../../rest/requests/User';
-import { mapUserToRequestModel } from '../../services/userService';
-import { User } from '../../types/userTypes';
+import FormInput from '../../core/Input/FormInput';
+import { registerUser } from '../../../rest/requests/User';
+import { mapUserToRequestModel } from '../../../services/userService';
+import { RegisterUser } from '../../../types/userTypes';
+import { ChangeUserMethods } from '../../../types/generalTypes';
+import { User } from '../../../types/userTypes';
 
 const registerSchema = () => yup.object({
   firstName: yup.string().required(),
@@ -16,16 +18,16 @@ const registerSchema = () => yup.object({
   password1: yup.string().min(6).required('min 6 znaków')
 });
 
-type MyState = { isAfterSubmit: boolean };
+type StateType = { isAfterSubmit: boolean };
 
 type PathParamsType = {
   param1: string;
 }
 
 // Your component own properties
-type PropsType = RouteComponentProps<PathParamsType> & Record<string, any>
+type PropsType = RouteComponentProps<PathParamsType> & Record<string, any> & ChangeUserMethods
 
-class RegisterForm extends React.Component<PropsType, MyState> {
+class RegisterForm extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
     super(props);
 
@@ -34,13 +36,22 @@ class RegisterForm extends React.Component<PropsType, MyState> {
     };
   }
 
-  onSubmit = (formikValues: User) => {
+  onSubmit = (formikValues: RegisterUser) => {
     this.setState({ isAfterSubmit: true });
     registerUser(mapUserToRequestModel(formikValues)).then((callback) => {
-      console.log(callback);
+        let user: User | null;
+        if(callback.data) {
+            user = {
+                firstName: callback.data.firstName,
+                lastName: callback.data.lastName,
+                email: callback.data.email,          
+            }
+        } else {
+            user = null
+        }
+      this.props.loginUser(user)
       this.props.history.push('/');
     });
-
   }
 
   render() {

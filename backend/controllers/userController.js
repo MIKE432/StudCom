@@ -18,7 +18,7 @@ exports.registerUser = handleErrors(async (req, res, next) => {
 });
 
 exports.loginUser = handleErrors(async (req, res, next) => {
-
+    console.log(req.body)
     passport.authenticate('local', { session: true }, (err, user) => {
         if (err) {
             next(err);
