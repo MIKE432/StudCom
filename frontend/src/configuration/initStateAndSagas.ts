@@ -16,4 +16,21 @@ const persistConfig = {
     stateReconciler: autoMergeLevel2
 }
 
-const persistedReducer = persistReducer(persistConfig, rootReducer(history))
+declare global {
+    interface Window {
+      __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+  }
+
+const persistedReducer = persistReducer(persistConfig, rootReducer(history));
+
+export default function initStateAndSagas() {
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const sagaMiddleware = createSagaMiddleware();
+    const routerMiddleWare = routerMiddleware(history);
+    const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleWare)));
+    const persistor = persistStore(store);
+    sagaMiddleware.run(rootSaga);
+
+    return { store, persistor };
+}

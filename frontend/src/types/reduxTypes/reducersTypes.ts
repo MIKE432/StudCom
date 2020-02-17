@@ -4,4 +4,4 @@ export type State = {
     router: RouterState<{}>;
 }
 
-type Reducer<S> = (state: S, action: Action) => S
+export type Reducer<S> = (state: S, action: Action) => S
