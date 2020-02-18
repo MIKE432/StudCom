@@ -5,7 +5,7 @@ export type RegisterUser = {
   password: string;
 }
 
-export type User = {
+export interface User {
   firstName: string;
   lastName: string;
   email: string;
