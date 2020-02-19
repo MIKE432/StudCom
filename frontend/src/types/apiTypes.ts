@@ -14,3 +14,8 @@ export type RequestBody = Record<string, any>
 export type RequestParams = Record<string, any>
 
 export type ResponseType = Record<string, any>
+
+export type Response = {
+    data: any,
+    status: number
+}
