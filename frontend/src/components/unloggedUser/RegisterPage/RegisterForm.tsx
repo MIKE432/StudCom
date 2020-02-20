@@ -4,11 +4,11 @@ import * as yup from 'yup';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import FormInput from '../../core/Input/FormInput';
-import { registerUser } from '../../../rest/requests/User';
+import { registerUser } from '../../../state/actions/userActions';
 import { mapUserToRequestModel } from '../../../services/userService';
 import { RegisterUser } from '../../../types/userTypes';
 import { ChangeUserMethods } from '../../../types/generalTypes';
-import { User } from '../../../types/userTypes';
+import { connect } from 'react-redux';
 
 const registerSchema = () => yup.object({
   firstName: yup.string().required(),
@@ -25,7 +25,11 @@ type PathParamsType = {
 }
 
 // Your component own properties
-type PropsType = RouteComponentProps<PathParamsType> & Record<string, any> & ChangeUserMethods
+type PropsType = RouteComponentProps<PathParamsType> & Record<string, any> & ChangeUserMethods;
+
+const mapDispatchToProps = (dispatch: any) => ({
+  registerUser: (user: RegisterUser) => dispatch(registerUser(user))
+})
 
 class RegisterForm extends React.Component<PropsType, StateType> {
   constructor(props: PropsType) {
@@ -38,20 +42,7 @@ class RegisterForm extends React.Component<PropsType, StateType> {
 
   onSubmit = (formikValues: RegisterUser) => {
     this.setState({ isAfterSubmit: true });
-    registerUser(mapUserToRequestModel(formikValues)).then((callback) => {
-        let user: User | null;
-        if(callback.data) {
-            user = {
-                firstName: callback.data.firstName,
-                lastName: callback.data.lastName,
-                email: callback.data.email,          
-            }
-        } else {
-            user = null
-        }
-      this.props.loginUser(user)
-      this.props.history.push('/');
-    });
+    this.props.registerUser(mapUserToRequestModel(formikValues));
   }
 
   render() {
@@ -135,4 +126,4 @@ class RegisterForm extends React.Component<PropsType, StateType> {
   }
 }
 
-export default withRouter(RegisterForm);
+export default connect(null, mapDispatchToProps)(withRouter(RegisterForm));
