@@ -7,12 +7,11 @@ import { safeRest } from '../../rest/sagas/restSaga';
 
 export function* getUser(action: UserAction) {
     const user = yield call(apiCall, '/api/user', 'GET', {}, {});
-    put(storeUserToState(user));
+    yield put(storeUserToState(user.data));
 }
 
 export function* registerUser(action: UserAction) {
     const response = yield call(apiCall, '/api/register', 'POST', {}, action.payload);
-    console.log(response)
     yield put(storeUserToState(response.data));
     yield put(registerUserSuccess(response));
 }

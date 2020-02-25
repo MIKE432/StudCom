@@ -1,13 +1,12 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import routes from './routes';
-import { ChangeUserMethods } from '../types/generalTypes';
 
-const Router = (props: ChangeUserMethods) => (
+const Router = (props: Record<string, any>) => (
   <Switch>
-    {
-      routes.map((route, key) => <Route key={key}  path={route.path} component={() => <route.component {...props} />} exact />)
-    }
+      {
+          routes.filter(route => props.isUserLoggedIn === route.isUserLoggedIn).map((route, key) => <Route key={key}  path={route.path} component={() => <route.component />} exact />) 
+      }
   </Switch>
 
 
