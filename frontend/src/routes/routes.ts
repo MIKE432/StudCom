@@ -4,10 +4,12 @@ import RegisterPage from '../components/unloggedUser/RegisterPage/RegisterPage';
 const routes: Array<Record<string, any>> = [
   {
     path: '/',
-    component: MainPage
+    component: MainPage,
+    isUserLoggedIn: false
   }, {
     path: '/register',
-    component: RegisterPage
+    component: RegisterPage,
+    isUserLoggedIn: false
   }
 ];
 

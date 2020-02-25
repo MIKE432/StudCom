@@ -5,13 +5,18 @@ import './App.css';
 import './styles/StylesToExport.scss';
 import Router from './routes/routerComponent';
 import NavBar from './components/core/NavBar/NavBar';
-import { User } from './types/userTypes';
-import { getCurrentUser } from './rest/requests/User'
+import { getUser } from './state/actions/userActions';
+import { select } from './state/actions/generalAction';
+import { connect } from 'react-redux';
 
-export const userManagementMethods = {
-  loginUser: (user: User | null) => {},
-  logoutUser: () => {}
-}
+
+const mapDispatchToProps = (dispatch: any) => ({
+  getUser: () => dispatch(getUser()),
+});
+
+const mapStateToProps = (state: any) => ({
+  user: select(state, 'user'),
+})
 
 class App extends React.Component<Record<string, any>, Record<string, any>> {
 
@@ -22,41 +27,22 @@ class App extends React.Component<Record<string, any>, Record<string, any>> {
       isUserLoggedIn: false,
       currentUser: null
     };
-    userManagementMethods.loginUser = this.loginUser;
-    userManagementMethods.logoutUser = this.logoutUser;
   }
 
   componentDidMount() {
-    getCurrentUser().then(res => {
-      if(res.status === 200) {
-        this.setState({isUserLoggedIn: true, currentUser: res.data})
-      } else {
-        this.setState({isUserLoggedIn: false, currentUser: res.data})
-      }
-    })
-  }
-  
-  loginUser = (user: User | null) => {
-    this.setState({ isUserLoggedIn: true, currentUser: user });
-  }
-
-  logoutUser = () => {
-    this.setState({ isUserLoggedIn: false, currentUser: null });
+    this.props.getUser();
   }
 
   render() {
     return (
       <div>
-        {
-          console.log(this.state.currentUser)
-        }
         <BrowserRouter>
           <NavBar />
-          <Router logoutUser={this.logoutUser} loginUser={this.loginUser}/>
+          <Router isUserLoggedIn={this.props.user ? true : false}/>
         </BrowserRouter>
       </div>
     );
   }
 }
 
-export default App
+export default connect(mapStateToProps, mapDispatchToProps)(App)

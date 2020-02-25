@@ -1,0 +1,1 @@
+export const select = (store: Record<string, any>, storepath: string) => store[storepath];

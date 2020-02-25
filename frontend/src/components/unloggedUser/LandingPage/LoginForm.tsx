@@ -64,36 +64,35 @@ class LoginForm extends React.Component<PropsType, StateType> {
           password: ''
         }}
         validationSchema={loginSchema}
-        render={(formikBag) => (
-          <Form className="login-form">
-            <FormInput
-              labelText="Email"
-              uniqueId="login-form-email"
-              type="text"
-              className={`form-control ${this.state.isError ? 'is-invalid'
-                : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
-              error={this.state.isError}
-              isValid={!(formikBag.errors.email && formikBag.touched.email)}
-              touched={formikBag.touched.email}
-              name="email"
-              errorMessage=""
-            />
-            <FormInput
-              labelText="Hasło"
-              uniqueId="login-form-password"
-              type="password"
-              className={`form-control ${this.state.isError ? 'is-invalid'
-                : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
-              error={this.state.isError}
-              isValid={!(formikBag.errors.password && formikBag.touched.password)}
-              touched={formikBag.touched.password}
-              name="password"
-              errorMessage="Nieprawidłowe hasło lub email"
-            />
-            <button type="submit" className="btn btn-success">Zaloguj się</button>
-          </Form>
-        )}
-      />
+      >{(formikBag) => (
+        <Form className="login-form">
+          <FormInput
+            labelText="Email"
+            uniqueId="login-form-email"
+            type="text"
+            className={`form-control ${this.state.isError ? 'is-invalid'
+              : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
+            error={this.state.isError}
+            isValid={!(formikBag.errors.email && formikBag.touched.email)}
+            touched={formikBag.touched.email}
+            name="email"
+            errorMessage=""
+          />
+          <FormInput
+            labelText="Hasło"
+            uniqueId="login-form-password"
+            type="password"
+            className={`form-control ${this.state.isError ? 'is-invalid'
+              : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
+            error={this.state.isError}
+            isValid={!(formikBag.errors.password && formikBag.touched.password)}
+            touched={formikBag.touched.password}
+            name="password"
+            errorMessage="Nieprawidłowe hasło lub email"
+          />
+          <button type="submit" className="btn btn-success">Zaloguj się</button>
+        </Form>
+      )}</Formik>
     );
   }
 }
