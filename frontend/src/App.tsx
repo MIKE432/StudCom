@@ -10,12 +10,13 @@ import { select } from './state/actions/generalAction';
 import { connect } from 'react-redux';
 
 
+
 const mapDispatchToProps = (dispatch: any) => ({
   getUser: () => dispatch(getUser()),
 });
 
 const mapStateToProps = (state: any) => ({
-  user: select(state, 'user'),
+    user: select(state, 'user')
 })
 
 class App extends React.Component<Record<string, any>, Record<string, any>> {
@@ -36,10 +37,8 @@ class App extends React.Component<Record<string, any>, Record<string, any>> {
   render() {
     return (
       <div>
-        <BrowserRouter>
           <NavBar />
           <Router isUserLoggedIn={this.props.user ? true : false}/>
-        </BrowserRouter>
       </div>
     );
   }

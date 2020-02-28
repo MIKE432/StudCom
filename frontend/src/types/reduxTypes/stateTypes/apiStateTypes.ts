@@ -1,9 +1,9 @@
 export type SingleApiState = {
-    status: number | null,
-    data: any
+    status: number | null;
+    data: any;
 }
 
 export type ApiState = {
-    isLoading: boolean,
-    lastResponses: Record<string, SingleApiState> | null
+    isLoading: boolean;
+    lastResponses: Record<string, SingleApiState> | null;
 }

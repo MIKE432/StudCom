@@ -5,9 +5,10 @@ import { withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 import FormInput from '../../core/Input/FormInput'
 import { ChangeUserMethods } from '../../../types/generalTypes';
-import { loginUser } from '../../../rest/requests/User'
 import { mapUserToLoginModel } from '../../../services/userService';
 import { LoginUser, User } from '../../../types/userTypes';
+import { loginUser } from '../../../state/actions/userActions'
+import { connect } from 'react-redux';
 
 const loginSchema = () => yup.object({
   email: yup.string().email().required(),
@@ -20,10 +21,13 @@ type PathParamsType = {
   param1: string;
 }
 
-type PropsType = RouteComponentProps<PathParamsType> & Record<string, any> & ChangeUserMethods
+const mapDispatchToProps = (dispatch: any) => ({
+  loginUser: (user: LoginUser) => dispatch(loginUser(user))
+})
+
+type PropsType = RouteComponentProps<PathParamsType> & Record<string, any>
 
 class LoginForm extends React.Component<PropsType, StateType> {
-  _isMounted = false;
 
   constructor(props: PropsType) {
     super(props);
@@ -34,25 +38,8 @@ class LoginForm extends React.Component<PropsType, StateType> {
     }
   }
 
-  onSubmit = (formikValues: LoginUser) => {
-    this._isMounted = true
-    loginUser(mapUserToLoginModel(formikValues)).then(res => {
-      if(res.data) {
-
-        const user: User = {
-          firstName: res.data.firstName,
-          lastName: res.data.lastName,
-          email: res.data.email,          
-        }
-
-        this.props.loginUser(user)
-        this.props.history.push('/');
-        
-      } else if(res.status === 401) {
-        this.setState({ isError: true })
-      }
-      
-    })
+  onSubmit = (user: LoginUser) => {
+    this.props.loginUser(mapUserToLoginModel(user))
   }
 
   render() {
@@ -97,4 +84,4 @@ class LoginForm extends React.Component<PropsType, StateType> {
   }
 }
 
-export default withRouter(LoginForm);
+export default connect(null, mapDispatchToProps)(withRouter(LoginForm));

@@ -4,7 +4,7 @@ const LocalStrategy = require('passport-local').Strategy,
     crypto = require('crypto-js'),
     db = require('./sequalize'),
     userService = require('../services/userServices/userService'),
-    UnauthorizedError = require('../configuration/errors').UnauthorizedError
+    UnauthorizedError = require('../configuration/errors').UnauthorizedError;
 
 const initStrategy = (passport) => {
 

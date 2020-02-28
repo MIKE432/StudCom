@@ -8,7 +8,7 @@ class LandingPage extends React.Component<PropsType, {}> {
   render() {
     return (
       <div className="login-form-container">
-        <LoginForm loginUser={this.props.loginUser}/>
+        <LoginForm />
       </div>
 
     );
