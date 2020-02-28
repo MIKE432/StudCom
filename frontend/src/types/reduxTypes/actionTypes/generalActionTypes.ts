@@ -4,7 +4,7 @@ export interface AnyAction {
 
 export interface Action extends AnyAction {
     type: string;
-    payload: any
+    payload: any;
 }
 
 export interface WrappedAction extends Action {

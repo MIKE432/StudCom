@@ -1,16 +1,23 @@
-import MainPage from '../components/unloggedUser/LandingPage/LandingPage';
+import UnLoggedUserMainPage from '../components/unloggedUser/LandingPage/LandingPage';
 import RegisterPage from '../components/unloggedUser/RegisterPage/RegisterPage';
+import LoggedUserMainPage from '../components/loggedUser/MainPage/MainPage';
 
-const routes: Array<Record<string, any>> = [
-  {
-    path: '/',
-    component: MainPage,
-    isUserLoggedIn: false
-  }, {
-    path: '/register',
-    component: RegisterPage,
-    isUserLoggedIn: false
-  }
-];
+
+const routes: Record<string, any> = {
+    unloggedUser: [  {
+        path: '/',
+        component: UnLoggedUserMainPage,
+        isUserLoggedIn: false
+    }, {
+        path: '/register',
+        component: RegisterPage,
+        isUserLoggedIn: false
+    }],
+    loggedUser: [, {
+        path: '/',
+        component: LoggedUserMainPage,
+        isUserLoggedIn: true
+      }]
+};
 
 export default routes;

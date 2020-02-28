@@ -2,7 +2,7 @@ const passport = require('passport'),
     handleErrors = require('../configuration/errors').handleErrors,
     userService = require('../services/userServices/userService');
 
-exports.getCurrentUser = handleErrors(async (req, res) => res.send({ currentUser: req.user }));
+exports.getCurrentUser = handleErrors(async (req, res) => res.send(req.user));
 
 exports.registerUser = handleErrors(async (req, res, next) => {
 
@@ -18,7 +18,6 @@ exports.registerUser = handleErrors(async (req, res, next) => {
 });
 
 exports.loginUser = handleErrors(async (req, res, next) => {
-    console.log(req.body)
     passport.authenticate('local', { session: true }, (err, user) => {
         if (err) {
             next(err);

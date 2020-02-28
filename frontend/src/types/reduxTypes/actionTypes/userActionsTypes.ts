@@ -8,5 +8,5 @@ export const REGISTER_USER ='REGISTER_USER';
 
 export interface UserAction extends Action {
     type: string;
-    payload: User | RegisterUser | LoginUser
+    payload: User | RegisterUser | LoginUser;
 }
