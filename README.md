@@ -14,5 +14,6 @@ yarn install in /frontend and /backend folders
 
 ### fill created database with tables
 need to go to /backend/sql folder and then paste this command: *psql -d studcom -c '\i create_database.sql'*
+
 ### delete database 
 *sudo -u **your user name** dropdb studcom*
