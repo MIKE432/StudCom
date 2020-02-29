@@ -5,4 +5,5 @@ CREATE TABLE userd (
     last_name TEXT NOT NULL,
     password TEXT NOT NULL,
     salt TEXT NOT NULL
+    
 )

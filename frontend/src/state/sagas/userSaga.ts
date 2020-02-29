@@ -14,6 +14,7 @@ export function* getUser(action: UserAction) {
 export function* registerUser(action: UserAction) {
     const response = yield call(apiCall, '/api/register', 'POST', {}, action.payload);
     yield put(registerUserSuccess(response.data));
+
     yield put(push('/'));
 }
 

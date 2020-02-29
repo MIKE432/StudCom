@@ -13,7 +13,7 @@ const routes: Record<string, any> = {
         component: RegisterPage,
         isUserLoggedIn: false
     }],
-    loggedUser: [, {
+    loggedUser: [{
         path: '/',
         component: LoggedUserMainPage,
         isUserLoggedIn: true

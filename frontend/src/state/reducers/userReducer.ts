@@ -3,7 +3,6 @@ import { LOGIN_USER, LOGOUT_USER, GET_USER, REGISTER_USER } from '../../types/re
 import { UserState } from '../../types/reduxTypes/stateTypes/userSteteTypes';
 
 export default function userReducer(state: UserState = null, action: Action): UserState {
-    console.log(action)
     switch(action.type) {
         case `${GET_USER}/SUCCESS`: {
             return !action.payload.firstName ? null : {
