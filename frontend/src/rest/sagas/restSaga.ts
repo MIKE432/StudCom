@@ -3,8 +3,7 @@ import { Action } from '../../types/reduxTypes/actionTypes/generalActionTypes';
 import { errorAction } from '../actionWrapper';
 
 function* recoverRest(error: any, action: Action) {
-    yield put(errorAction({ type: action.type.replace('/REQUEST', ''), payload: { status: error.status, data: null }}));
-
+    yield put(errorAction({ type: action.type.replace('/REQUEST', ''), payload: { status: error.response.status, data: null }}));
 }
 
 type RecoverRest = (error: any, action: Action) => void;

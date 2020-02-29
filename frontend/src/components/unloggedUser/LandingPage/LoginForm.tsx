@@ -4,11 +4,11 @@ import { RouteComponentProps } from 'react-router';
 import { withRouter } from 'react-router-dom';
 import * as yup from 'yup';
 import FormInput from '../../core/Input/FormInput'
-import { ChangeUserMethods } from '../../../types/generalTypes';
 import { mapUserToLoginModel } from '../../../services/userService';
-import { LoginUser, User } from '../../../types/userTypes';
+import { LoginUser } from '../../../types/userTypes';
 import { loginUser } from '../../../state/actions/userActions'
 import { connect } from 'react-redux';
+import { select } from '../../../state/actions/generalAction';
 
 const loginSchema = () => yup.object({
   email: yup.string().email().required(),
@@ -23,6 +23,10 @@ type PathParamsType = {
 
 const mapDispatchToProps = (dispatch: any) => ({
   loginUser: (user: LoginUser) => dispatch(loginUser(user))
+})
+
+const mapStateToProps = (state: any) => ({
+  registerUserResponse: select(state, 'api').lastResponses && select(state, 'api').lastResponses.LOGIN_USER
 })
 
 type PropsType = RouteComponentProps<PathParamsType> & Record<string, any>
@@ -57,7 +61,7 @@ class LoginForm extends React.Component<PropsType, StateType> {
             labelText="Email"
             uniqueId="login-form-email"
             type="text"
-            className={`form-control ${this.state.isError ? 'is-invalid'
+            className={`form-control ${(this.state.isError || (this.props.registerUserResponse && this.props.registerUserResponse.status === 401)) ? 'is-invalid'
               : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
             error={this.state.isError}
             isValid={!(formikBag.errors.email && formikBag.touched.email)}
@@ -69,10 +73,10 @@ class LoginForm extends React.Component<PropsType, StateType> {
             labelText="Hasło"
             uniqueId="login-form-password"
             type="password"
-            className={`form-control ${this.state.isError ? 'is-invalid'
+            className={`form-control ${(this.state.isError || (this.props.registerUserResponse && this.props.registerUserResponse.status === 401)) ? 'is-invalid'
               : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
             error={this.state.isError}
-            isValid={!(formikBag.errors.password && formikBag.touched.password)}
+            isValid={!((formikBag.errors.password && formikBag.touched.password) || (this.props.registerUserResponse && this.props.registerUserResponse.status === 401))}
             touched={formikBag.touched.password}
             name="password"
             errorMessage="Nieprawidłowe hasło lub email"
@@ -84,4 +88,4 @@ class LoginForm extends React.Component<PropsType, StateType> {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(LoginForm));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(LoginForm));

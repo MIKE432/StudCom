@@ -7,7 +7,6 @@ exports.getCurrentUser = handleErrors(async (req, res) => res.send(req.user));
 exports.registerUser = handleErrors(async (req, res, next) => {
 
     const user = await userService.registerUser(req.body);
-
     req.login(user, (err) => {
         if (err) {
             next(err);

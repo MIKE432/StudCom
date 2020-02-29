@@ -1,5 +1,4 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
 import './styles/StylesToExport.scss';
@@ -27,6 +26,7 @@ class App extends React.Component<Record<string, any>, Record<string, any>> {
     this.state = {
       isUserLoggedIn: false,
       currentUser: null
+
     };
   }
 

@@ -9,13 +9,18 @@ import { mapUserToRequestModel } from '../../../services/userService';
 import { RegisterUser } from '../../../types/userTypes';
 import { ChangeUserMethods } from '../../../types/generalTypes';
 import { connect } from 'react-redux';
+import { select } from '../../../state/actions/generalAction';
 
 const registerSchema = () => yup.object({
   firstName: yup.string().required(),
   lastName: yup.string().required(),
   email: yup.string().email().required(),
   password: yup.string().min(6).required('min 6 znaków'),
-  password1: yup.string().min(6).required('min 6 znaków')
+  password1: yup.string().test('email-match', 'Emails do not match', function (value) {
+
+    const { password } = this.parent;
+    return password === value;
+  })
 });
 
 type StateType = { isAfterSubmit: boolean };
@@ -24,11 +29,14 @@ type PathParamsType = {
   param1: string;
 }
 
-// Your component own properties
 type PropsType = RouteComponentProps<PathParamsType> & Record<string, any> & ChangeUserMethods;
 
 const mapDispatchToProps = (dispatch: any) => ({
   registerUser: (user: RegisterUser) => dispatch(registerUser(user))
+});
+
+const mapStateToProps = (state: any) => ({
+  registerUserResponse: select(state, 'api').lastResponses && select(state, 'api').lastResponses.REGISTER_USER
 })
 
 class RegisterForm extends React.Component<PropsType, StateType> {
@@ -87,13 +95,13 @@ class RegisterForm extends React.Component<PropsType, StateType> {
             labelText="Email"
             uniqueId="register-form-email"
             type="text"
-            className={`form-control ${formikBag.errors.email && formikBag.touched.email ? 'is-invalid'
+            className={`form-control ${((formikBag.errors.email && formikBag.touched.email) || (this.props.registerUserResponse && this.props.registerUserResponse.status === 400)) ? 'is-invalid'
               : (this.state.isAfterSubmit ? 'is-valid' : '')}`}
             error={formikBag.errors.email}
-            isValid={!(formikBag.errors.email && formikBag.touched.email)}
+            isValid={!((formikBag.errors.email && formikBag.touched.email) || (this.props.registerUserResponse && (this.props.registerUserResponse.status === 400)))}
             touched={formikBag.touched.email}
             name="email"
-            errorMessage="Podaj email"
+            errorMessage={`${(this.props.registerUserResponse && (this.props.registerUserResponse.status === 400)) ? "Podany email już istnieje" : "Podaj email"}`}
           />
           <FormInput
             labelText="Hasło"
@@ -125,4 +133,4 @@ class RegisterForm extends React.Component<PropsType, StateType> {
   }
 }
 
-export default connect(null, mapDispatchToProps)(withRouter(RegisterForm));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(RegisterForm));

@@ -11,9 +11,6 @@ class MainPage extends React.Component<Record<string, any>, Record<string, any>>
     render() {
         return (
             <div>
-                {
-                    console.log('XDDD')
-                }
                 <button onClick={this.props.logoutUser} className="btn btn-success">Wyloguj sie</button>
             </div>
         )
