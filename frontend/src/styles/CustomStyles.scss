@@ -77,3 +77,19 @@
         margin: 3px;
     }
 }
+
+
+.side-bar {
+    height: 100vh;
+    width: 50px;
+    display: flex;
+    position: sticky;
+    background-color: black
+}
+
+.main-content {
+    display: flex;
+    flex-direction: row;
+    width: 100vh;
+    height: 100vh;
+}

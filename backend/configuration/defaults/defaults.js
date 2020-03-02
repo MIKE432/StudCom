@@ -5,7 +5,7 @@ const defaults = {
         routes: 'routes/*.js'
     },
     sequalizeCredentials: {
-        database: '',
+        databaseName: '',
         userName: '',
         password: '',
         options: {
