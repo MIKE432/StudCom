@@ -1,15 +1,21 @@
 import React from 'react';
 import NavLink from '../Link/Link';
+import { connect } from 'react-redux';
+
+const mapStateToProps = (state: any) => ({
+
+})
 
 class NavBar extends React.Component {
-
   render() {
     return (
       <div className="nav-bar">
-        <NavLink to="/" iconName="fas fa-home">
+        <NavLink to="/">
+        <i className="fas fa-home" />
           Strona główna
         </NavLink>
-        <NavLink to="register" iconName="fas fa-registered">
+        <NavLink to="register">
+          <i className="fas fa-registered" />
           Zarejestruj się
         </NavLink>
       </div>
@@ -17,4 +23,4 @@ class NavBar extends React.Component {
   }
 }
 
-export default NavBar;
+export default connect(mapStateToProps, null)(NavBar);
