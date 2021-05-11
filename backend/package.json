@@ -20,7 +20,7 @@
     "express-session": "^1.17.0",
     "fs": "^0.0.1-security",
     "glob": "^7.1.6",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "nodemon": "^2.0.2",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
